@@ -1,0 +1,14 @@
+---
+- name: Test de la connectivite et installation de htop
+  hosts: nodes
+  become: true # Utilise sudo
+
+  tasks:
+    - name: Ping des noeuds
+      ping:
+
+    - name: Installation du paquet htop
+      apt:
+        name: htop
+        state: present
+        update_cache: yes
