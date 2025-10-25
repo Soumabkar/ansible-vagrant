@@ -1,2 +1,3 @@
-.vagrant/*
-master_id_*/
+.vagrant/
+master_id_rsa.pub
+chapitre-*/
