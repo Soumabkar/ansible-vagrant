@@ -1,0 +1,53 @@
+---
+- name: "Install Grafana"
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: "Download Grafana MSI"
+      win_get_url:
+        url: https://dl.grafana.com/oss/release/grafana-11.5.10.windows-amd64.msi
+        dest: C:\Temp\grafana.msi
+
+    - name: "Install Grafana"
+      win_package:
+        path: C:\Temp\grafana.msi
+        state: present
+
+    - name: "Install nssm"
+      win_chocolatey:
+        name: "nssm"
+        state: present
+
+    - name: "Configure firewall for grafana"
+      win_firewall_rule:
+        name: "Grafana server"
+        localport: "3000"
+        action: allow
+        direction: in
+        protocol: tcp
+        state: present
+        enabled: yes
+
+    - name: "Find grafana-server.exe"
+      win_find:
+        patterns: 'grafana-server.exe'
+        paths: 'C:\Program Files\GrafanaLabs\grafana\bin'
+      register: grafana_binary
+
+    - name: "Delete existing grafana service"
+      win_service:
+        name: "grafana-server"
+        state: absent
+
+    - name: "Create service for Grafana"
+      win_nssm:
+        name: "grafana-server"
+        application: "{{ grafana_binary.files[0].path }}"
+        args: "-config \"C:\\Program Files\\GrafanaLabs\\grafana\\conf\\defaults.ini\""
+        state: present
+
+    - name: "Start grafana"
+      win_service:
+        name: "grafana-server"
+        state: started
+        start_mode: auto

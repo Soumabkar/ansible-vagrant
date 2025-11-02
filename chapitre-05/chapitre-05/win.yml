@@ -1,0 +1,7 @@
+win:
+  hosts:
+    windows:
+      ansible_user: vagrant
+      ansible_password: vagrant
+      ansible_connection: winrm
+      ansible_winrm_server_cert_validation: ignore

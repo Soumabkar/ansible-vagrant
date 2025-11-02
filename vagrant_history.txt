@@ -1,0 +1,61 @@
+vagrant@master:~$ history
+    1  ssh-keygen -t rsa -b 2048 -f /home/vagrant/.ssh/id_rsa -q -N ""
+    2  sudo apt install -y ansible
+    3  sudo apt update
+    4  sudo apt install -y ansible
+    5  ansible --version
+    6  ssh vagrant@192.168.56.11
+    7  cat .ssh/d_rsa.pub
+    8  pwd
+    9  cat .ssh/id_rsa.pub
+   10  ssh vagrant@192.168.56.11
+   11  history
+
+
+vagrant@node1:~$ history
+    1  mkdir -p ~/.ssh
+    2  master_to_pub_key="ssh-rsa  
+
+    3  echo "$master_to_pub_key" >> ~/.ssh/authorized_keys
+    4  chmod 600 ~/.ssh/authorized_keys
+    5  sudo chmod 644 /etc/ssh/sshd_config
+    6  vim configure_sshd.sh
+    7  chmod +x configure_sshd.sh
+    8  sudo systemctl restart sshd
+    9  master_to_pub_key="ssh-rsa 
+
+   10  echo "$master_to_pub_key" >> ~/.ssh/authorized_keys
+   11  sudo systemctl restart sshd
+   12  clear
+   13  history
+
+
+
+
+
+
+cd ansible/chapitre-05/
+    2  cat win.yml
+    3  vim win.yml
+    4  ping 192.168.56.12
+    5  cd ../../..
+    6  pwd
+    7  ls
+    8  cd ..
+    9  ls
+   10  cat etc/hosts
+   11  vim etc/hosts
+   12  sudo  vim etc/hosts
+   13  cd home/vagrant/ansible/chapitre-05/
+   14  ping 192.168.56.12
+   15  cat ~ etc/hosts
+   16* 
+   17  ping 192.168.56.12
+   18  ping 10.0.2.15
+   19  ansible -i win.yml -m win_ping all
+   20  histor
+
+C:\Windows\System32\drivers\etc\hosts
+192.168.56.12    windows
+
+

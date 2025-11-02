@@ -1,0 +1,113 @@
+ansible -i node1.inv -m setup -a 'filter=ansible_user_id'  all
+
+ansible -i node1.inv -m lineinfile -a "path=/etc/sudoers line='deploy ALL=(ALL:ALL) NOPASSWD: ALL'"  --become-method=su --become --ask-become-pass all
+
+ansible -i node1.inv -m setup -a 'filter=ansible_user_id' --become all
+
+ansible -i node1.inv all -m ping
+
+ansible -i node1.inv -m setup -a 'filter=ansible_user_id' --become-user vagrant --become all
+
+
+# (module setup et ping) et éventuellement modifier le contenu d’un fichier (lineinfile)
+
+ansible -i node1.inv -b -m apt -a "name=apache2" all
+
+ansible -i node1.inv -b -m service -a "name=apache2 state=started enabled=yes" all
+
+ansible -i node1.inv -b -m shell -a "ufw allow http" all
+
+ansible -i node1.inv -b -m apt -a "name=firewalld state=present" all
+
+# vagrant plugin install vagrant-vbguest
+
+ ansible-playbook -b -i node1.inv install-apache.yml
+
+ vagrant plugin update vagrant-vbguest
+
+vagrant plugin uninstall vagrant-vbguest
+vagrant plugin install vagrant-vbguest
+
+mkdir -p ~/infrastructure-as-a-code
+git init ~/infrastructure-as-a-code
+cd ~/infrastructure-as-a-code
+git remote add origin  https://github.com/Soumabkar/ansible-vagrant.git
+git remote -v
+
+ansible -m debug -a var=groups localhost
+
+ansible_connection=winrm
+
+ansible_connection=docker
+
+[active-directory] 
+active-directory-1 ansible_connection=winrm 
+ 
+[container] 
+container-1 ansible_connection=docker
+
+ansible-doc --type connection --list
+
+#Chiffrement du fichier entier
+ansible-vault encrypt intranet-pass.yml 
+
+ansible -m debug -a var=intranet_mysql_db_user localhost -e @intranet-pass.yml --ask-vault-pass
+
+#Chiffrement avec mot de passe dans un fichier
+
+echo ansible > vault.key
+export DEFAULT_VAULT_PASSWORD_FILE=vault.key
+
+ansible-vault encrypt intranet-pass.yml --vault-password-file vault.key 
+
+# Déchiffrement d’un fichier
+
+ansible-vault edit intranet-pass.yml --vault-password-file ./vault.key
+
+#Changement de mot de passe
+ansible-vault rekey intranet-pass.yml
+
+ansible-vault rekey --new-vault-password-file ./new-vault.key --vault-password-file ./vault.key intranet-pass.yml
+
+ansible-vault edit intranet-pass.yml --vault-password-file ./new-vault.key
+
+#Chiffrement d’un champ
+ansible-vault encrypt_string 'abdoul' --vault-password-file ./vault.key
+
+ansible -m debug -a var=intranet_mysql_db_password localhost -e @partial-vault.yml --vault-password-file ./new-vault.key
+
+ansible-doc -t lookup --list | grep -i hashi_vault
+ansible-doc -t lookup --list community.hashi_vault
+
+sudo apt install python3-pip -y
+sudo apt install pythonpy
+sudo pip3 install docker-py
+
+ansible -m docker_container -a "name=test image=centos/systemd state=started" localhost
+ansible -m ping -i ./docker.py unruffled_bartik -e ansible_connection=docker
+
+ansible -m ping -i ./docker.py test -e ansible_connection=docker
+ansible-doc -t inventory -l
+
+Enter-PSSession -ComputerName 127.0.0.1 -Port 55985 -Credential vagrant
+
+/home/vagrant/ansible/chapitre-05 
+
+
+curl -v -k https://192.168.56.14:5986/wsman
+
+ansible 192.168.33.10  -i hosts.ini -m win_ping
+
+ansible windows -i hosts.ini -m win_pin
+
+C:\Windows\System32\drivers\etc\hosts
+<adresse_IP>    <nom_d_hôte>
+
+C:\ProgramData\chocolatey\lib
+
+
+
+
+
+
+

@@ -17,4 +17,4 @@ master_id_rsa.pub
 Thumbs.db
 
 # Ignorer les dossier de chapitre
-chapitre-*/**
+#chapitre-*/**
